@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Delete Todo</title>
+
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+  <div class="w-100 bg-gray-400 p-5 rounded-lg text-center">
+    <h1 class="text-2xl font-semibold mb-4">Delete Todo</h1>
+    <p class="mb-6 text-lg">Are you sure you want to delete: <span class="font-bold">{{ object.title }}</span></p>
+
+    <form method="post" class="flex flex-col items-center gap-4">
+      {% csrf_token %}
+      <button type="submit" 
+      class="w-40 bg-red-600 hover:bg-red-700 text-white py-2 rounded mb-2">
+      Yes, delete
+    </button>
+
+      <a href="{% url 'todo-list' %}"
+       class="w-40 bg-gray-500 hover:bg-gray-600 text-white py-2 rounded">
+       Cancel</a>
+
+    </form>
+  </div>
+</body>
+</html>

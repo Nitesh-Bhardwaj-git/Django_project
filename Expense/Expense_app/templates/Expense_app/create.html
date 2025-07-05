@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% if is_income %}Add Income{% else %}Add Expense{% endif %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8 mt-16">
+    <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">{% if is_income %}Add Income{% else %}Add Expense{% endif %}</h1>
+    <form method="post" class="flex flex-col gap-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="w-full {% if is_income %}bg-green-600 hover:bg-green-700{% else %}bg-blue-600 hover:bg-blue-700{% endif %} text-white py-2 rounded transition">{% if is_income %}Add Income{% else %}Add Expense{% endif %}</button>
+    </form>
+    <div class="mt-4 text-center">
+      <a href="{% url 'expense_list' %}" class="text-blue-600 underline">Back to List</a>
+    </div>
+  </div>
+</body>
+</html>

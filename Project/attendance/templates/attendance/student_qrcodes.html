@@ -1,0 +1,19 @@
+{% extends 'attendance/base.html' %}
+{% block title %}Student QR Codes{% endblock %}
+{% block content %}
+    <h2>Student QR Codes</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Roll Number</th>
+            <th>QR Code</th>
+        </tr>
+        {% for item in qrcodes %}
+        <tr>
+            <td>{{ item.student.name }}</td>
+            <td>{{ item.student.roll_number }}</td>
+            <td><img src="data:image/png;base64,{{ item.img_data }}" alt="QR Code"></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %} 

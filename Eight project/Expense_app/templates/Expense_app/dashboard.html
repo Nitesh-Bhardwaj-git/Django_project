@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-md p-8 mt-16">
+    <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">Dashboard</h1>
+    <div class="flex flex-col gap-4 mb-6">
+      <a href="{% url 'expense_list' %}" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded text-center transition">View All Expenses</a>
+      <a href="{% url 'expense_add' %}" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded text-center transition">Create New Expense</a>
+    </div>
+    <form action="{% url 'logout' %}" method="post" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded transition">Logout</button>
+    </form>
+  </div>
+</body>
+</html>

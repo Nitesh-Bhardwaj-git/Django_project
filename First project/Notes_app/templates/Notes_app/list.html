@@ -1,0 +1,38 @@
+<h1>Make Notes</h1>
+
+<!-- ─────────── Category-filter dropdown ─────────── -->
+<form method="get">
+  <label>
+    Category:
+    <select name="category" onchange="this.form.submit()">
+      <option value=""          {% if not request.GET.category %}selected{% endif %}>All</option>
+      <option value="work"      {% if request.GET.category == 'work' %}selected{% endif %}>Work</option>
+      <option value="personal"  {% if request.GET.category == 'personal' %}selected{% endif %}>Personal</option>
+      <option value="urgent"    {% if request.GET.category == 'urgent' %}selected{% endif %}>Urgent</option>
+      <option value="other"     {% if request.GET.category == 'other' %}selected{% endif %}>Other</option>
+    </select>
+  </label>
+  <noscript><button type="submit">Apply</button></noscript>
+</form>
+
+ 
+{% regroup notes by category as categories %}
+
+{% for cat in categories %}
+  <h2>{{ cat.grouper|title }}</h2>
+  <ul>
+    {% for note in cat.list %}
+      <li>
+        {{ note.title }}
+        <a href="{% url 'note-update' note.pk %}">Edit</a>
+        <a href="{% url 'note-delete' note.pk %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No notes in this category.</li>
+    {% endfor %}
+  </ul>
+{% empty %}
+  <p>No Data Found.</p>
+{% endfor %}
+
+<p><a href="{% url 'note-create' %}">Create Note</a></p>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <form method="post" id="calc-form">
+        {% csrf_token %}
+        <input type="text" id="display" name="display" value="" readonly>
+        <input type="hidden" id="expression" name="expression">
+        <div>
+            <button type="button" onclick="appendChar('7')">7</button>
+            <button type="button" onclick="appendChar('8')">8</button>
+            <button type="button" onclick="appendChar('9')">9</button>
+            <button type="button" onclick="appendChar('/')">/</button>
+        </div>
+        <div>
+            <button type="button" onclick="appendChar('4')">4</button>
+            <button type="button" onclick="appendChar('5')">5</button>
+            <button type="button" onclick="appendChar('6')">6</button>
+            <button type="button" onclick="appendChar('*')">*</button>
+        </div>
+        <div>
+            <button type="button" onclick="appendChar('1')">1</button>
+            <button type="button" onclick="appendChar('2')">2</button>
+            <button type="button" onclick="appendChar('3')">3</button>
+            <button type="button" onclick="appendChar('-')">-</button>
+        </div>
+        <div>
+            <button type="button" onclick="appendChar('0')">0</button>
+            <button type="button" onclick="appendChar('.')">.</button>
+            <button type="button" onclick="appendChar('+')">+</button>
+            <button type="button" onclick="clearDisplay()">C</button>
+        </div>
+        <div>
+            <button type="submit">=</button>
+        </div>
+    </form>
+    {% if result is not None %}
+        <h2>Result: {{ result }}</h2>
+    {% endif %}
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <script>
+        function appendChar(char) {
+            const display = document.getElementById('display');
+            display.value += char;
+            document.getElementById('expression').value = display.value;
+        }
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            document.getElementById('expression').value = '';
+        }
+        document.getElementById('calc-form').addEventListener('submit', function(e) {
+            document.getElementById('expression').value = document.getElementById('display').value;
+        });
+    </script>
+</body>
+</html> 

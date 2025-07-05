@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+  <div class="w-full max-w-2xl bg-white rounded-xl shadow-md p-6 mt-8">
+    <h1 class="text-3xl font-bold text-center mb-6 text-blue-700">All Expenses</h1>
+    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+      <div class="bg-green-100 rounded p-4">
+        <div class="text-lg font-semibold text-green-700">Total Income</div>
+        <div class="text-2xl font-bold">{{ total_income }}</div>
+      </div>
+      <div class="bg-red-100 rounded p-4">
+        <div class="text-lg font-semibold text-red-700">Total Expense</div>
+        <div class="text-2xl font-bold">{{ total_expense }}</div>
+      </div>
+      <div class="bg-blue-100 rounded p-4">
+        <div class="text-lg font-semibold text-blue-700">Balance</div>
+        <div class="text-2xl font-bold">{{ balance }}</div>
+      </div>
+    </div>
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Expense by Category</h2>
+      <ul class="list-disc list-inside">
+        {% for category, amount in category_totals.items %}
+          <li><span class="font-semibold">{{ category|default:'Uncategorized' }}:</span> {{ amount }}</li>
+        {% empty %}
+          <li>No expenses by category.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <ul class="space-y-4">
+      {% for expense in expenses %}
+        <li class="flex flex-col md:flex-row md:items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm">
+          <div class="flex-1">
+            <span class="font-semibold text-lg text-gray-800">{{ expense.name }}</span>
+            <span class="ml-2 text-gray-600">{{ expense.amount }}</span>
+            <span class="ml-2 text-gray-400 text-sm">{{ expense.date }}</span>
+            {% if expense.type == 'income' %}
+              <span class="ml-2 text-xs px-2 py-1 rounded bg-green-200 text-green-800">{{ expense.type|title }}</span>
+            {% else %}
+              <span class="ml-2 text-xs px-2 py-1 rounded bg-red-200 text-red-800">{{ expense.type|title }}</span>
+            {% endif %}
+            {% if expense.category %}
+              <span class="ml-2 text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded">{{ expense.category }}</span>
+            {% endif %}
+          </div>
+          <div class="mt-2 md:mt-0 flex gap-2">
+            <a href="{% url 'expense_update' expense.pk %}" 
+            class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded transition">Edit</a>
+            <a href="{% url 'expense_delete' expense.pk %}" 
+            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded transition">Delete</a>
+          </div>
+        </li>
+      {% empty %}
+        <li class="text-center text-gray-500 py-8">No expenses found.</li>
+      {% endfor %}
+    </ul>
+    <div class="mt-6 flex justify-end gap-2">
+      <a href="{% url 'income_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition">Add Income</a>
+      <a href="{% url 'expense_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Add Expense</a>
+    </div>
+  </div>
+</body>
+</html>

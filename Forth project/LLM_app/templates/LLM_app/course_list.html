@@ -1,0 +1,29 @@
+{% extends "LLM_app/base.html" %}
+{% block title %}Courses – LMS{% endblock %}
+{% block content %}
+<h2 class="mb-3">All Courses</h2>
+
+<a href="{% url 'course-add' %}"
+   class="btn btn-primary mb-4">+ Create course</a>
+
+<ul class="list-group">
+  {% for course in courses %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a class="text-decoration-none" href="{% url 'course-detail' course.pk %}">
+        {{ course.title }}
+      </a>
+
+      {% if user == course.created_by %}
+        <span>
+          <a href="{% url 'course-edit' course.pk %}"
+             class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+          <a href="{% url 'course-delete' course.pk %}"
+             class="btn btn-sm btn-outline-danger">Delete</a>
+        </span>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li class="list-group-item">No courses yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

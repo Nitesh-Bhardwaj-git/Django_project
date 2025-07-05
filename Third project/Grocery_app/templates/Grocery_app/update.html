@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>{{ view.object|default_if_none:"Add new item" }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {% crispy form %}   
+  <button class="btn btn-success">Save</button>
+  <a href="{% url 'item-list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

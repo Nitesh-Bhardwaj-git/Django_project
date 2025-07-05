@@ -1,0 +1,168 @@
+{% extends 'Social_media/base.html' %}
+
+{% block title %}Create Post - Social Media Platform{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-2xl shadow-xl p-8 hover-lift animate-fade-in">
+        <!-- Header -->
+        <div class="flex items-center space-x-4 mb-8">
+            <div class="w-16 h-16 bg-gradient-to-r from-primary-400 to-primary-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                {{ user.username|first|upper }}
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Create New Post</h1>
+                <p class="text-gray-600 text-lg">Share what's on your mind with the world</p>
+            </div>
+        </div>
+
+        <!-- Create Post Form -->
+        <form method="post" enctype="multipart/form-data" class="space-y-8">
+            {% csrf_token %}
+            
+            <!-- Content Field -->
+            <div class="space-y-3">
+                <label for="{{ form.content.id_for_label }}" class="block text-lg font-semibold text-gray-700">
+                    What's on your mind?
+                </label>
+                <textarea 
+                    name="{{ form.content.name }}" 
+                    id="{{ form.content.id_for_label }}"
+                    rows="6"
+                    class="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none transition-all duration-200 text-lg"
+                    placeholder="Share your thoughts, ideas, or experiences with the community..."
+                >{% if form.content.value %}{{ form.content.value }}{% endif %}</textarea>
+                {% if form.content.errors %}
+                <div class="text-red-600 text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    {% for error in form.content.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Image Upload Field -->
+            <div class="space-y-3">
+                <label for="{{ form.image.id_for_label }}" class="block text-lg font-semibold text-gray-700">
+                    Add an Image (optional)
+                </label>
+                <div class="flex items-center justify-center w-full">
+                    <label for="{{ form.image.id_for_label }}" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all duration-200 group">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-12 h-12 mb-4 text-gray-400 group-hover:text-primary-500 transition-colors duration-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                            </svg>
+                            <p class="mb-2 text-lg text-gray-500 group-hover:text-primary-600 transition-colors duration-200">
+                                <span class="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p class="text-sm text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                        <input 
+                            type="file" 
+                            name="{{ form.image.name }}" 
+                            id="{{ form.image.id_for_label }}"
+                            accept="image/*"
+                            class="hidden"
+                        >
+                    </label>
+                </div>
+                {% if form.image.errors %}
+                <div class="text-red-600 text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    {% for error in form.image.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Caption Field -->
+            <div class="space-y-3">
+                <label for="{{ form.post_caption.id_for_label }}" class="block text-lg font-semibold text-gray-700">
+                    Caption (optional)
+                </label>
+                <textarea 
+                    name="{{ form.post_caption.name }}" 
+                    id="{{ form.post_caption.id_for_label }}"
+                    rows="3"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none transition-all duration-200"
+                    placeholder="Add a caption to your post..."
+                >{% if form.post_caption.value %}{{ form.post_caption.value }}{% endif %}</textarea>
+                {% if form.post_caption.errors %}
+                <div class="text-red-600 text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                    {% for error in form.post_caption.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex space-x-4 pt-6">
+                <button 
+                    type="submit" 
+                    class="flex-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center"
+                >
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                    Share Post
+                </button>
+                <a 
+                    href="{% url 'home' %}" 
+                    class="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold text-lg hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center"
+                >
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Preview Section -->
+        <div id="preview" class="mt-8 hidden animate-slide-up">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                Preview
+            </h3>
+            <div class="border-2 border-gray-200 rounded-xl p-6 bg-gray-50">
+                <img id="preview-image" src="" alt="Preview" class="w-full h-64 object-cover rounded-xl shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Preview image functionality
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+    const preview = document.getElementById('preview');
+    const previewImage = document.getElementById('preview-image');
+
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                preview.classList.remove('hidden');
+                preview.classList.add('animate-slide-up');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %} 

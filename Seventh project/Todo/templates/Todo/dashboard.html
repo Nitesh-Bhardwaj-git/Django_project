@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Dashboard</title>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+  <div class="w-100 bg-gray-300 p-5 rounded-xl">
+    <h1 class="text-2xl font-semibold text-center mb-4">Welcome, {{ user.username }}!</h1>
+    <div class="flex justify-center gap-4 mb-4">
+      <a href="{% url 'todo-list' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">My Todos</a>
+      <a href="{% url 'todo-create' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Create New Todo</a>
+    </div>
+    <div class="mb-4">
+      <h2 class="text-xl font-bold mb-2">Todo Summary</h2>
+      <p>Total Todos: {{ total_todos }}</p>
+      <p>Completed: {{ completed_todos }}</p>
+      <p>Pending: {{ pending_todos }}</p>
+    </div>
+    <div class="mb-4">
+      <h2 class="text-xl font-bold mb-2">Recent Todos</h2>
+      <ul>
+        {% for todo in todos|slice:":5" %}
+        <li class="flex justify-between items-center bg-white rounded p-2 mb-2">
+          <span>{{ todo.title }}</span>
+          <span>
+            <a href="{% url 'todo-update' todo.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-sm">Edit</a>
+            <a href="{% url 'todo-delete' todo.pk %}" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm">Delete</a>
+          </span>
+        </li>
+        {% empty %}
+        <li>No todos yet!</li>
+        {% endfor %}
+      </ul>
+      {% if todos.count > 5 %}
+      <div class="text-center mt-2">
+        <a href="{% url 'todo-list' %}" class="text-blue-700 underline font-semibold">
+          View All Todos</a>
+      </div>
+      {% endif %}
+    </div>
+    <form action="{% url 'logout' %}" method="post" class="mt-4">
+      {% csrf_token %}
+      <button 
+      type="submit" 
+      class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+      Logout
+    </button>
+    </form>
+  </div>
+</body>
+</html> 

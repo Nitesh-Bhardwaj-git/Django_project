@@ -1,0 +1,11 @@
+{% extends "LLM_app/base.html" %}
+{% block title %}Delete {{ object.title }} – LMS{% endblock %}
+{% block content %}
+<h2 class="text-danger mb-4">Delete “{{ object.title }}”?</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, delete</button>
+  <a class="btn btn-secondary" href="{% url 'course-list' %}">Cancel</a>
+</form>
+{% endblock %}

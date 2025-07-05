@@ -1,0 +1,15 @@
+<h1>Blog Posts</h1>
+
+<ul>
+    {% for blog in blogs %}
+    <li>
+    {{blog.title}}
+    <a href="{% url 'blog-update' blog.pk %}">Edit</a> 
+    <a href="{% url 'blog-delete' blog.pk %}">Delete</a>   
+    </li>
+    {% empty %}
+    {% comment %} <li>No Data Found</li> {% endcomment %}
+    {% endfor %}
+</ul>
+
+    <a href="{% url 'blog-create' %}">Create New blog</a>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance Dashboard</title>
+</head>
+<body>
+    <h2>Attendance Dashboard for {{ today }}</h2>
+    <table border="1">
+        <tr>
+            <th>Subject</th>
+            <th>Total Present</th>
+            <th>Total Late</th>
+        </tr>
+        {% for row in dashboard_data %}
+        <tr>
+            <td>{{ row.subject.name }}</td>
+            <td>{{ row.total_present }}</td>
+            <td>{{ row.total_late }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>Refresh this page to update the dashboard.</p>
+</body>
+</html> 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Attendance History</title>
+</head>
+<body>
+    <h2>Attendance History</h2>
+    <form method="get">
+        <label for="student">Student:</label>
+        <select name="student" id="student">
+            <option value="">All</option>
+            {% for student in students %}
+                <option value="{{ student.id }}" {% if selected_student == student.id|stringformat:'s' %}selected{% endif %}>{{ student.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="subject">Subject:</label>
+        <select name="subject" id="subject">
+            <option value="">All</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:'s' %}selected{% endif %}>{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" value="{{ selected_date }}">
+        <button type="submit">Filter</button>
+    </form>
+    <form method="get" action="/attendance/export_attendance_history_csv/">
+        <input type="hidden" name="student" value="{{ selected_student }}">
+        <input type="hidden" name="subject" value="{{ selected_subject }}">
+        <input type="hidden" name="date" value="{{ selected_date }}">
+        <button type="submit">Export as CSV</button>
+    </form>
+    <br>
+    <table border="1">
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Late?</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.date }}</td>
+            <td>{{ record.time_marked }}</td>
+            <td>{{ record.student.name }}</td>
+            <td>{{ record.subject.name }}</td>
+            <td>{% if record.is_late %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No records found.</td></tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/attendance/">Back to Home</a>
+</body>
+</html> 

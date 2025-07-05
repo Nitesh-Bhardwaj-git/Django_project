@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Analytics</title>
+</head>
+<body>
+    <h2>Subject-wise Attendance Stats</h2>
+    <form method="get" action="/attendance/export_advanced_analytics_csv/">
+        <button type="submit">Export as CSV</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>Subject</th>
+            <th>Total Attendance</th>
+            <th>Total Late</th>
+        </tr>
+        {% for row in subject_stats %}
+        <tr>
+            <td>{{ row.subject.name }}</td>
+            <td>{{ row.total_attendance }}</td>
+            <td>{{ row.total_late }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Recent Late Entry Logs</h2>
+    <table border="1">
+        <tr>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for log in late_logs %}
+        <tr>
+            <td>{{ log.student.name }}</td>
+            <td>{{ log.subject.name }}</td>
+            <td>{{ log.date }}</td>
+            <td>{{ log.time_marked }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Monthly Attendance Report</h2>
+    <table border="1">
+        <tr>
+            <th>Month</th>
+            <th>Total Attendance</th>
+        </tr>
+        {% for row in monthly_report %}
+        <tr>
+            <td>{{ row.month|date:"F Y" }}</td>
+            <td>{{ row.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Yearly Attendance Report</h2>
+    <table border="1">
+        <tr>
+            <th>Year</th>
+            <th>Total Attendance</th>
+        </tr>
+        {% for row in yearly_report %}
+        <tr>
+            <td>{{ row.year|date:"Y" }}</td>
+            <td>{{ row.count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/attendance/">Back to Home</a>
+</body>
+</html> 

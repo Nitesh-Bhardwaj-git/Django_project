@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Attendance by Roll Number</title>
+</head>
+<body>
+    <h2>Mark Attendance by Roll Number</h2>
+    {% if message %}
+        <p><strong>{{ message }}</strong></p>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="roll_number">Roll Number (from QR):</label>
+        <input type="text" name="roll_number" id="roll_number" required>
+        <br><br>
+        <label for="subject">Subject:</label>
+        <select name="subject" id="subject" required>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" required>
+        <br><br>
+        <label for="is_late">Late?</label>
+        <input type="checkbox" name="is_late" id="is_late">
+        <br><br>
+        <button type="submit">Mark Attendance</button>
+    </form>
+</body>
+</html> 

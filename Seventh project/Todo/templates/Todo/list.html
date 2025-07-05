@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Todo List</title>
+</head>
+<body class="bg-gray-100 min-h-screen py-15">
+    <div class="max-w-4xl mx-auto px-50">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-1000 border-2 border-blue-500 bg-gray-300 px-2 py-1 rounded ml-2">Your To-Do List</h1>
+            <div class="flex space-x-4">
+                <a href="{% url 'dashboard' %}" 
+                   class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-sm text-sm">
+                    Dashboard
+                </a>
+                <a href="{% url 'logout' %}" 
+                   class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-sm text-sm">
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="bg-gray-800 rounded-sm shadow-md p-8 mb-8">
+        <ul class="space-y-2">
+        {% for todo in todos %}
+        <li class="flex items-center justify-between p-1 bg-gray-50 rounded-sm border">
+        <div class="text text-gray-1000">{{todo.title}}</div>
+                    
+                    
+        <div class="flex space-x-5">
+                <a href="{% url 'todo-update' todo.pk %}" 
+                           class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                            Edit
+                        </a>
+                        <a href="{% url 'todo-delete' todo.pk %}" 
+                           class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                            Delete
+                        </a>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="text-center text-gray-500 py-8">No Data Found</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'todo-create' %}" 
+               class="bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg">
+                <span class="mr-2"></span>Create New Todo 
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+   

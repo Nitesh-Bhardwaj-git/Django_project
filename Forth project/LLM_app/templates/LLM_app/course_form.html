@@ -1,0 +1,17 @@
+{% extends "LLM_app/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+  {{ form.instance.pk|yesno:"Edit Course,Create Course" }} – LMS
+{% endblock %}
+{% block content %}
+<h2 class="mb-3">
+  {{ form.instance.pk|yesno:"Edit course,Create course" }}
+</h2>
+
+<form method="post" novalidate>
+  {% csrf_token %}
+  {% crispy form %} {# If you didn’t install crispy-forms, swap for {{ form.as_p }} #}
+  <button class="btn btn-success">Save</button>
+  <a class="btn btn-secondary" href="{% url 'course-list' %}">Cancel</a>
+</form>
+{% endblock %}
